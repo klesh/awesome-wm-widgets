@@ -53,8 +53,20 @@ local mpdarc_current_song_widget = wibox.widget {
     font = 'Play 9'
 }
 
+local function htmlspecialchars(s)
+	local HTML_ENTITIES = {
+		["&"] = "&amp;",
+		["<"] = "&lt;",
+		[">"] = "&gt;",
+		['"'] = "&quot;",
+		["'"] = "&apos;",
+	}
+    s = string.gsub(s, "[\">/<'&]", HTML_ENTITIES)
+    return s
+end
+
 local update_graphic = function(widget, stdout, _, _, _)
-    local current_song = string.gmatch(stdout, "[^\r\n]+")()
+    local current_song = htmlspecialchars(string.gmatch(stdout, "[^\r\n]+")())
     stdout = string.gsub(stdout, "\n", "")
     local mpdpercent = string.match(stdout, "(%d%d)%%")
     local mpdstatus = string.match(stdout, "%[(%a+)%]")
