@@ -193,13 +193,21 @@ local function worker(user_args)
         spawn.easy_async(DEC_VOLUME_CMD(device, s or step), function(stdout) update_graphic(volume.widget, stdout) end)
     end
 
-    function volume:toggle()
+    function volume:toggleMute()
         spawn.easy_async(TOG_VOLUME_CMD(device), function(stdout) update_graphic(volume.widget, stdout) end)
     end
 
     function volume:mixer()
         if mixer_cmd then
             spawn.easy_async(mixer_cmd)
+        end
+    end
+
+    function volume:toggle(visible)
+        if visible == nil then
+            popup.visible = not popup.visible
+        else
+            popup.visible = visible
         end
     end
 
@@ -216,7 +224,7 @@ local function worker(user_args)
                     awful.button({}, 4, function() volume:inc() end),
                     awful.button({}, 5, function() volume:dec() end),
                     awful.button({}, 2, function() volume:mixer() end),
-                    awful.button({}, 1, function() volume:toggle() end)
+                    awful.button({}, 1, function() volume:toggleMute() end)
             )
     )
 

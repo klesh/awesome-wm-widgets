@@ -257,7 +257,10 @@ local function worker(user_args)
             )
     )
 
-    function calendar_widget.toggle()
+    function calendar_widget.toggle(visible)
+        if visible ~= nil then
+            popup.visible = not visible
+        end
 
         if popup.visible then
             -- to faster render the calendar refresh it and just hide

@@ -44,6 +44,14 @@ local popup = awful.popup {
     widget = {}
 }
 
+function logout_menu_widget:toggle(visible)
+    if visible == nil then
+        popup.visible = not popup.visible
+    else
+        popup.visible = visible
+    end
+end
+
 local function worker(user_args)
     local rows = { layout = wibox.layout.fixed.vertical }
 
